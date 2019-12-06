@@ -5,8 +5,21 @@
     <span v-if="wordDecideB">{{word}}</span>
     
     <div class="SearchBar">
+      <el-select v-model="value" placeholder="Select">
+    <el-option class="searcher"
+      >
+      <li v-on:click="filterYear">before 2007 </li>
+      
+    </el-option>
+    <el-option class="searcher"
+      >
+      <li>2</li>
+      
+    </el-option>
+  </el-select>
       <el-input  class="inel" placeholder="Find Beer" v-model="search">cos</el-input>
     <el-button type="primary" v-on:click="filterBeer"><b>Find</b></el-button>
+    
     
     </div>
     <ul id="cos" v-for="(name,key) in source" v-bind:key="key.id">
@@ -54,7 +67,8 @@ export default {
       word:'book',
       wordDecideA: false,
       wordDecideB: false,
-      search:"",
+      search:""
+      
     };
   },
   methods:{
@@ -68,26 +82,18 @@ export default {
       .get("https://api.punkapi.com/v2/beers?beer_name="+a)
       .then(res => (this.source = res.data));
        
+     },
+     filterYear: function filyear(){
+       axios
+      .get("https://api.punkapi.com/v2/beers?brewed_before=10-2007")
+      .then(res => (this.source = res.data));
      }
     
   },
-  filters: {
-    shuffle(values) {
-      for (var i = values.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = values[i];
-        values[i] = values[j];
-        values[j] = temp;
-      }
-      return values;
-    },
-    Upper(value) {
-      return value.toUpperCase();
-    },
-    Lower(value) {
-      return value.toLowerCase();
-    }
-  },
+  
+ 
+
+  
   created() {
     
     axios
@@ -134,7 +140,13 @@ ul {
  width: 180px;
  margin-bottom: 20px;
  margin-top: 30px;
+ margin-left: 20px;
    
     position: relative;
+    
+}
+.searcher{
+  position: relative;
+  margin-right: 20px ;
 }
 </style>
